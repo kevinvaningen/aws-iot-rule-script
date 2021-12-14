@@ -1,11 +1,5 @@
 import {Aws, Options} from 'aws-cli-js';
 
-const options = new Options(
-    process.env.AWS_ACCESS_KEY_ID,
-    process.env.AWS_SECRET_ACCESS_KEY,
-    process.env.AWS_SESSION_TOKEN
-);
-
 function validateVars() {
     if(!process.env.AWS_SESSION_TOKEN) {
         throw Error('This script needs a valid AWS Session.');
@@ -28,7 +22,15 @@ const runUpdate = async () => {
     await insertTimeStreamRule('test-rule');
 }
 
+const options = new Options(
+    process.env.AWS_ACCESS_KEY_ID,
+    process.env.AWS_SECRET_ACCESS_KEY,
+    process.env.AWS_SESSION_TOKEN
+);
+
 const aws = new Aws(options);
+
+
 console.log('Update IOT Rules');
 runUpdate().then(value =>console.log('Finished importing IOT rules.')).catch(reason => console.error(`Problem importing IOT rules ${JSON.stringify(reason)}`));
 
